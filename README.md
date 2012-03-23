@@ -1,17 +1,14 @@
-# pymyblog README
+# pymyblog
 
-Just learn pyramid!  
-Simple Blog/Page CMS with SQLAlchem, Jinja2 and Pyramid for my blog.
+Just learn Pyramid!  
+Simple Blog/Page CMS with SQLAlchemy, Jinja2 and Pyramid for my blog...
 
 
 Getting Started
 ---------------
 
-1 cd <directory containing this file>
-
-2 $venv/bin/python setup.py develop
-
-3 $venv/bin/populate_myblog development.ini
-
-4 $venv/bin/pserve development.ini
+1. cd <directory containing this file>
+2. python setup.py develop
+3. populate_myblog development.ini
+4. pserve development.ini
 
