@@ -1,0 +1,7 @@
+{% if logged_in %}
+<div class="ym-grid">
+ <a href="{{ req.relative_url("add", to_application=False) }}" class="ym-button ym-add">Add</a>
+ <a href="{{ request.path_url }}/edit" class="ym-button ym-edit">Edit</a>
+ <a href="{{ request.path_url }}/delete" class="ym-button ym-delete">Delete</a>
+</div>
+{% endif %}

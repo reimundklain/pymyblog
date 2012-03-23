@@ -1,0 +1,6 @@
+pyramid
+pyramid-jinja2
+SQLAlchemy
+PyGments
+markdown
+nose

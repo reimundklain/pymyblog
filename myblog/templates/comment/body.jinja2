@@ -1,0 +1,29 @@
+<div id="comment-box-{{ comment.id }}" class="comment box">
+  <a name="comment-{{ comment.id }}"></a>
+  <div class="comment-header ym-gbox">
+    <small><i>{{ comment.name|capitalize }} wrote:</i></small>
+  </div>
+  <div class="comment-body ym-gbox">
+    {{ comment.body|markdown(['codehilite'], safe_mode='escape')|safe }}
+  </div>
+  <div class="comment-footer ym-gbox">
+    <script type="text/javascript">
+      $(document).ready(function() {
+    	/* Showe reply form on click */
+        $('#comment-reply-{{ comment.id }}').click(function (){
+          if($('#comment-form-{{ comment.id }}').css('display') == 'none'){
+            $('a[id|="comment-reply-{{ comment.id }}"]').text("Cancel");
+          } else{
+            $('a[id|="comment-reply-{{ comment.id }}"]').text("Reply");
+          }
+          $('#comment-form-{{ comment.id }}').toggle('slow');
+        });
+      });
+    </script>
+    <small><i><a id="comment-reply-{{ comment.id }}">Reply</a></i></small> |
+    <small><i><a href="{{ request.url }}#comment-{{ comment.id }}">Link</a></i></small>
+    {% if logged_in %}| <small><i><a href="{{ request.url }}/comment/{{ comment.id }}/delete">Delete</a></i></small>{% endif %}
+  </div>
+  <div class="comment-body-gbox ym-gbox"> {% include "comment/form.jinja2" %}</div>
+</div>
+        

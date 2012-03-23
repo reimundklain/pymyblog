@@ -1,0 +1,24 @@
+{% extends "base.jinja2" %}
+{% block title %}User Settings {% endblock title %}
+{% block content %}
+
+<form action="{{ url }}" method="post" class="ym-form-ym-full">
+  <div class="ym-fbox-text {% if form.password1.errors %}ym-error{% endif %}">
+    {{ form.password1.label }}
+    {% if form.password1.errors or form.password2.errors%}
+      <ul>
+        {% for error in form.password1.errors %}<li><p class="ym-message">{{ error }}</p></li>{% endfor %}
+        {% for error in form.password2.errors %}<li><p class="ym-message">{{ error }}</p></li>{% endfor %}
+      </ul>
+    {% endif %}
+    {{ form.password1 }}
+    {{ form.password2 }}
+  </div>
+  <div class="ym-fbox-button">
+    {{ form.submit }}
+    {% if comment %}
+      {{ form.parent(value=comment.id) }}
+    {% endif %}
+  </div>
+</form>
+{% endblock content %}

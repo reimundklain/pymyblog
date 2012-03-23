@@ -1,0 +1,27 @@
+<form id="comment-form{% if comment %}-{{ comment.id }}{% endif %}" method="post" class="ym-form ym-full" {% if comment %}style="display: none;"{% endif %}>
+  <div class="ym-fbox-text">
+    {{ form.body.label }} {% if form.body.flags.required %}*{% endif %}(Markdown)
+    {{ form.body(rows="10") }}
+  </div>
+  <div class="ym-fbox-text {% if form.name.errors %}ym-error{% endif %}">
+    {{ form.name.label }} {% if form.name.flags.required %}*{% endif %}
+    {% if form.name.errors %}
+    <ul>{% for error in form.name.errors %}<li><p class="ym-message">{{ error }}</p></li>{% endfor %}</ul>
+    {% endif %}
+    {{ form.name }}
+  </div>
+  <div class="ym-fbox-text {% if form.email.errors %}ym-error{% endif %}">
+    {{ form.email.label }} {% if form.email.flags.required %}*{% endif %}
+    {% if form.email.errors %}
+      <ul>{% for error in form.email.errors %}<li><p class="ym-message">{{ error }}</p></li>{% endfor %}</ul>
+    {% endif %}
+    {{ form.email }}
+  </div>
+  <div class="ym-fbox-button">
+    {{ form.submit }}
+    {% if comment %}
+      {{ form.parent(value=comment.id) }}
+    {% endif %}
+  </div>
+  <input type="hidden" name="came_from" value="{{ came_from }}"/>
+</form>

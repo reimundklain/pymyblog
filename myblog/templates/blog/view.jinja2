@@ -1,0 +1,29 @@
+{% extends "base.jinja2" %}
+
+{% block title %}{{ post.title }}{% endblock %}
+{% block content %}
+
+{# LOGGEDIN #}
+{% include "admin/loggedin.jinja2" %}
+  
+{# BODY #}
+{% include "blog/body.jinja2" %}
+{# COMMENTS #}
+<a name="comments"></a>
+<div class="ym-grid comments">
+{% for assoc in post.comments recursive %}
+  {# we use set to make comment recursive availibe while it was in association #}
+  {% if assoc.comment is defined %}
+    {% set comment = assoc.comment %}
+  {% else %}
+    {% set comment = assoc %}
+  {% endif %}
+  
+  {% include "comment/body.jinja2" %}
+  {% if comment.childs %}
+    <dl>{{ loop(comment.childs) }}</dl>
+  {% endif %}
+{% endfor %}
+{% include "comment/form.jinja2" %}
+</div>
+{% endblock %}

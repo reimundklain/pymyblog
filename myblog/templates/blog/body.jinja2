@@ -1,0 +1,17 @@
+<div class="post ym-grid">
+  <div class="post-header ym-gbox">
+    <h3><a href="/blog/{{ post.route }}">{{post.title}}</a></h3>
+  </div> 
+  <div class="post-body ym-gbox">{{ post.body|markdown(['codehilite'])|safe }}</div>
+  <div class="post-footer ym-gbox">
+    <div>
+      <small><i>Tags: {% for tag in post.tags %}<a class="tag-{{ tag.tag.id }} tags" href="/tags/{{ tag.tag.name }}">{{ tag.tag.name }}</a></i>, {% endfor %}</small>
+    </div>
+    <div>
+      <small><i><a href="{{ req.application_url }}/blog/{{ post.route }}#comments">Comments: {{ post.number_of_comments() }}</a></i></small> | 
+      <small><i>Created: {{ post.created.strftime('%Y-%m-%d %H:%M') }}</i></small> | 
+      <small><i>Last Update: {{ post.updated.strftime('%Y-%m-%d %H:%M') }}</i></small>
+    </div>
+  </div>
+</div>
+<hr>

@@ -1,0 +1,12 @@
+{% extends "base.jinja2" %}
+{% block title %}{{ page.title }}{% endblock %}
+{% block content %}
+
+{# LOGGEDIN #}
+{% include "admin/loggedin.jinja2" %}
+
+<h3><a href="/page/{{ page.route }}">{{page.title}}</a></h3>
+<p>
+  {{ page.body|markdown(['codehilite'])|safe }}
+</p>
+{% endblock %}
