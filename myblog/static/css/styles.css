@@ -1,0 +1,50 @@
+body > header { min-width: 760px; }
+
+.ym-wrapper {
+  max-width: 80em;
+}
+
+.ym-wbox { padding: 10px; }
+
+.ym-col1 { width: 75%; } /* content */
+.ym-col3 { margin-left: 75%; margin-right: 0; } /* sidebar */
+
+/* ----- Button -----*/
+button {
+  padding: 4px 6px;
+}
+
+/* ----- Blog Posts ----- */
+.post {
+  padding: 0;
+}
+
+.post-header {
+  ;
+}
+
+.post-body {
+  margin: 1em 0;
+}
+
+.comment-footer {
+  ;
+}
+
+/* ----- Comments ----- */
+.comment {
+  padding: 0.5em;
+}
+
+.comment-header {
+  ;
+}
+
+.comment-body {
+  margin: 0.5em 0;
+}
+
+.comment-footer {
+  ;
+}
+
