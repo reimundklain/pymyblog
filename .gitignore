@@ -1,5 +1,8 @@
-myblog/sandbox/**/*
+sandbox
 
 
 # Ignore pyc
 *.pyc
+
+# Ignore db
+*.db
