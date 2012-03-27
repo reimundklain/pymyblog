@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*- 
-from .models import RouteAble, Page, Post, Comment, PostComment, Tag
+from models import RouteAble, Page, Post, Comment, PostComment, Tag, NodeTag, hash_password, User
 from lib import wtformsext
-from models import NodeTag, hash_password, User
 from pyramid.httpexceptions import HTTPFound, HTTPNotFound
 from pyramid.response import Response
 from pyramid.security import remember, forget, authenticated_userid
@@ -101,7 +100,7 @@ class PageView(object):
     def add(self):
         form = PageView.Form(self.request.POST)
         if self.request.method == 'POST' and form.validate():
-            page = Page.add(form.title.data, form.body.data)
+            page = Page.add(form.title.data, form.body.data, form.is_published.data)
             return HTTPFound(
                 location=self.request.route_url('page_view',
                     route=page.route)
@@ -122,7 +121,9 @@ class PageView(object):
             return HTTPNotFound("No such page")
         form = PageView.Form(self.request.POST, page)
         if self.request.method == 'POST' and form.validate():
+            page.title = form.title.data
             page.body = form.body.data
+            page.is_published = form.is_published.data
             return HTTPFound(
                 location=self.request.route_url('page_view',
                     route=page.route)
@@ -174,7 +175,8 @@ class BlogView(object):
             post = Post.add(
                 form.title.data,
                 form.body.data,
-                form.created.data
+                form.created.data,
+                form.is_published.data
                 )
             # add tags
             for tag in Tag.from_list(form.tags.data):
@@ -206,6 +208,7 @@ class BlogView(object):
             post.title = form.title.data
             post.created = form.created.data
             post.body = form.body.data
+            post.is_published = form.is_published.data
             # edit tags
             del post.tags
             for tag in Tag.from_list(form.tags.data):
