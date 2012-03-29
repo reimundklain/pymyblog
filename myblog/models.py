@@ -207,18 +207,18 @@ class Page(Node, RouteAble):
     _title = Column('title', Unicode(256), unique=True)
     _body = Column('body', UnicodeText)
 
-    def __init__(self, title, body=""):
-        RouteAble.__init__(self, title)
-        self.title = title.strip()
-        self.body = body.strip()
+    def __init__(self, title, body="", is_published=False):
+        self.title = title
+        self.body = body
+        self.is_published = is_published
         log.debug("Created %s" % (self))
 
     @classmethod
-    def add(cls, title, body=""):
+    def add(cls, title, body="", is_published=False):
         '''
         Create a new page and return 
         '''
-        page = cls(title, body)
+        page = cls(title, body, is_published)
         DBSession.add(page)
         return page
 
@@ -245,20 +245,19 @@ class Page(Node, RouteAble):
     def body(self): return self._body
     @body.setter
     def body(self, value):
-        self._body = value
+        self._body = value.strip()
         self.updated = datetime.datetime.now()
 
     @property
     def title(self): return self._title
     @title.setter
     def title(self, value):
-        self._title = value
+        self._title = value.strip()
+        self.route = RouteAble.url_quote(self._title)
         self.updated = datetime.datetime.now()
 
     def __str__(self):
         return "Page(title=%s)" % (self.title)
-
-
 
 #===============================================================================
 # Post
@@ -283,8 +282,9 @@ class Post(Node, RouteAble):
             RouteAble.url_quote(title)))
 
     @classmethod
-    def add(cls, title, body, created):
+    def add(cls, title, body, created, is_published):
         post = cls(title, body, created)
+        post.is_published = is_published
         DBSession.add(post)
         return post
 
@@ -383,10 +383,11 @@ class Comment(Node):
     body = Column(UnicodeText)
     childs = relationship('Comment', primaryjoin=parent_id == id, cascade='all, delete, delete-orphan')
 
-    def __init__(self, name, email, body, parent_id=None):
+    def __init__(self, name, email, body, parent_id=None, is_published=True):
         self.name = name
         self.email = email
         self.body = body
+        self.is_published = is_published
 
     @classmethod
     def by_id(cls, id):
