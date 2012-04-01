@@ -48,7 +48,7 @@ class RouteAble(object):
 
     @staticmethod
     def url_quote(s):
-        s = werkzeug.url_quote(s.lower().strip(), safe='')
+        #s = werkzeug.url_quote(s.lower().strip(), safe='')
         return s
 
     @classmethod

@@ -6,3 +6,4 @@ markdown
 nose
 WTForms
 Werkzeug
+Paste

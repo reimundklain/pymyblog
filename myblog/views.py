@@ -329,6 +329,7 @@ class BlogView(object):
         day = self.request.matchdict['day']
         routename = self.request.matchdict['route']
         route = '%s/%s/%s/%s' % (year, month, day, routename)
+        log.debug("Route: %s" %(route))
         return (year, month, day, route)
 
 
