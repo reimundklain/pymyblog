@@ -6,3 +6,7 @@ sandbox
 
 # Ignore db
 *.db
+
+.python-eggs/
+myblog.egg-info/
+
