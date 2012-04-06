@@ -39,22 +39,30 @@ class RootFactory(object):
 
 
 #===============================================================================
-# RoutAble
+# RouteAbleMixin
 #===============================================================================
-class RouteAble(object):
+class RouteAbleMixin(object):
+    '''
+    create valide route for routeable nodes like post or page
+        Test -> test
+        Hallo World -> hallo-world
+    '''
+
     route = Column(Unicode(256), unique=True)
     def __init__(self, route):
-        self.route = RouteAble.url_quote(route)
+        self.route = self.url_quote(route)
 
     @staticmethod
     def url_quote(s):
-        #s = werkzeug.url_quote(s.lower().strip(), safe='')
+        s = re.sub("[^a-zA-Z0-9]", " ", s).strip(' -').lower() # stripe " " and "-" char 
+        s = re.sub("\s", "-", s)
+        s = re.sub("-+", "-", s)
         return s
 
     @classmethod
     def by_route(cls, route):
         '''
-        Return RouteAble by route
+        Return RouteAbleMixin by route
         '''
         return DBSession.query(cls).filter_by(route=route).first()
 
@@ -199,7 +207,7 @@ class NodeTag(Base):
 #===============================================================================
 # Page
 #===============================================================================
-class Page(Node, RouteAble):
+class Page(Node, RouteAbleMixin):
     __tablename__ = 'pages'
     __mapper_args__ = {'polymorphic_identity': 'page'}
 
@@ -253,7 +261,7 @@ class Page(Node, RouteAble):
     @title.setter
     def title(self, value):
         self._title = value.strip()
-        self.route = RouteAble.url_quote(self._title)
+        self.route = RouteAbleMixin.url_quote(self._title)
         self.updated = datetime.datetime.now()
 
     def __str__(self):
@@ -262,7 +270,7 @@ class Page(Node, RouteAble):
 #===============================================================================
 # Post
 #===============================================================================
-class Post(Node, RouteAble):
+class Post(Node, RouteAbleMixin):
     __tablename__ = 'posts'
     __mapper_args__ = {'polymorphic_identity': 'post'}
 
@@ -279,7 +287,7 @@ class Post(Node, RouteAble):
     def _to_route(self, title):
         ''' helper to create route with datetime for post '''
         return ('%s/%s' % (self.created.strftime('%Y/%m/%d'),
-            RouteAble.url_quote(title)))
+            RouteAbleMixin.url_quote(title)))
 
     @classmethod
     def add(cls, title, body, created, is_published):
@@ -354,6 +362,13 @@ class Post(Node, RouteAble):
         for assoc in self.comments:
             number += count_rec(assoc.comment)
         return number
+
+
+    @classmethod
+    def by_id(cls, id):
+        return DBSession.query(cls).get(id)
+
+
 
 #===============================================================================
 # PostComment Association

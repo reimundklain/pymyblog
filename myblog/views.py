@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*- 
-from models import RouteAble, Page, Post, Comment, PostComment, Tag, NodeTag, hash_password, User
+from models import RouteAbleMixin, Page, Post, Comment, PostComment, Tag, NodeTag, hash_password, User
 from lib import wtformsext
 from pyramid.httpexceptions import HTTPFound, HTTPNotFound
 from pyramid.response import Response
@@ -187,7 +187,7 @@ class BlogView(object):
                     year=post.created.strftime('%Y'),
                     month=post.created.strftime('%m'),
                     day=post.created.strftime('%d'),
-                    route=RouteAble.url_quote(post.title)
+                    route=RouteAbleMixin.url_quote(post.title)
                     )
                 )
         return dict(
@@ -220,7 +220,7 @@ class BlogView(object):
                     year=year,
                     month=month,
                     day=day,
-                    route=RouteAble.url_quote(post.title))
+                    route=RouteAbleMixin.url_quote(post.title))
                 )
         return dict(
             post=post,
@@ -264,7 +264,7 @@ class BlogView(object):
                     year=year,
                     month=month,
                     day=day,
-                    route=RouteAble.url_quote(post.title))
+                    route=RouteAbleMixin.url_quote(post.title))
                 )
         return dict(
             form=form,
@@ -319,7 +319,7 @@ class BlogView(object):
                     year=year,
                     month=month,
                     day=day,
-                    route=RouteAble.url_quote(post.title))
+                    route=RouteAbleMixin.url_quote(post.title))
                 )
 
     def _get_route_args(self):
@@ -329,7 +329,7 @@ class BlogView(object):
         day = self.request.matchdict['day']
         routename = self.request.matchdict['route']
         route = '%s/%s/%s/%s' % (year, month, day, routename)
-        log.debug("Route: %s" %(route))
+        log.debug("Route: %s" % (route))
         return (year, month, day, route)
 
 

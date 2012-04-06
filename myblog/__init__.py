@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*- 
-from .models import DBSession
-from .security import groupfinder
+from models import DBSession
+from security import groupfinder
 from lib.jinja2filterext import markup
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
