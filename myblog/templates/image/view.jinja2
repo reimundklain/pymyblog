@@ -1,0 +1,12 @@
+{% extends "base.jinja2" %}
+{% block title %}{{ image.name }}{% endblock %}
+{% block content %}
+
+{# LOGGEDIN #}
+{% include "admin/loggedin.jinja2" %}
+
+<h3><a href="/image/{{ image.route }}">{{image.name}}</a></h3>
+<p>
+  <img src="/static/images/{{ image.name }}"/>
+</p>
+{% endblock %}

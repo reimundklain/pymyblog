@@ -81,25 +81,16 @@ class TestBlogView(unittest.TestCase):
 
 
 #===============================================================================
-# TestRouteAbleMixin
+# TestImageView
 #===============================================================================
-class TestRouteAbleMixin(unittest.TestCase):
+class TestImageView(unittest.TestCase):
 
-    def test(self):
-        from models import RouteAbleMixin
+    def test_view(self):
+        request = testing.DummyRequest()
+        request.path = "/image/1"
+        from views import ImageView
+        view = ImageView(request)
 
-        r = RouteAbleMixin("Test")
-        self.assertEqual("test", r.route);
-
-        r = RouteAbleMixin("Hallo ich bin eine Meldung von Heute")
-        self.assertEqual("hallo-ich-bin-eine-meldung-von-heute", r.route)
-
-        r = RouteAbleMixin("/////test %!\"§$%&/()")
-        self.assertEqual("test", r.route)
-
-        r = RouteAbleMixin("Hallo #2 §§$ §%§ §%??\" Meldung von Heute  -  23423 §$\"§)")
-        self.assertEqual('hallo-2-meldung-von-heute-23423', r.route)
-
-        r = RouteAbleMixin("Test__k")
-        self.assertEqual("test-k", r.route);
+        info = view.view()
+        self.assertEqual('test.jpg', info['name'])
 

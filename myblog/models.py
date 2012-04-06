@@ -54,7 +54,7 @@ class RouteAbleMixin(object):
 
     @staticmethod
     def url_quote(s):
-        s = re.sub("[^a-zA-Z0-9]", " ", s).strip(' -').lower() # stripe " " and "-" char 
+        s = re.sub("[^a-zA-Z0-9.]", " ", s).strip(' -').lower() # stripe " " and "-" char 
         s = re.sub("\s", "-", s)
         s = re.sub("-+", "-", s)
         return s
@@ -368,8 +368,6 @@ class Post(Node, RouteAbleMixin):
     def by_id(cls, id):
         return DBSession.query(cls).get(id)
 
-
-
 #===============================================================================
 # PostComment Association
 #===============================================================================
@@ -378,11 +376,6 @@ class PostComment(Base):
     post_id = Column(Integer, ForeignKey('posts.id'), primary_key=True)
     comment_id = Column(Integer, ForeignKey('comments.id'), primary_key=True)
     comment = relationship('Comment')
-
-    @classmethod
-    def by_ids(cls, post_id, comment_id):
-        DBSession
-
 
 #===============================================================================
 # Comment
@@ -410,7 +403,7 @@ class Comment(Node):
 
 
 #===============================================================================
-# Tags
+# Tag
 #===============================================================================
 class Tag(Base):
     __tablename__ = 'tags'
@@ -461,3 +454,44 @@ class Category(Base):
     node_id = Column(Integer, ForeignKey('nodes.id'))
     created = Column(DateTime, default=datetime.datetime.now())
     name = Column(Unicode(32), unique=True, nullable=False)
+
+
+#===============================================================================
+# Image
+#===============================================================================
+class Image(Node, RouteAbleMixin):
+    __tablename__ = 'images'
+    __mapper_args__ = {'polymorphic_identity': 'image'}
+
+    id = Column(Integer, ForeignKey('nodes.id'), primary_key=True)
+    _name = Column('name', Unicode(256), unique=True)
+
+    def __init__(self, name):
+        self.name = name
+
+    @classmethod
+    def by_id(cls, id):
+        return DBSession.query(cls).filter_by(id=id).first()
+
+
+    @classmethod
+    def add(cls, name):
+        img = cls(name)
+        DBSession.add(img)
+        return img
+
+
+    @property
+    def name(self): return self._name
+    @name.setter
+    def name(self, value):
+        self.route = RouteAbleMixin.url_quote(value)
+        self._name = value
+
+
+
+
+
+
+
+

@@ -35,6 +35,7 @@ def main(global_config, **settings):
     config.add_route('page_view', '/page/{route}')
     config.add_route('page_edit', '/page/{route}/edit')
     config.add_route('page_delete', '/page/{route}/delete')
+
     # Blog
     config.add_route('post_add', '/blog/add')
     config.add_route('post_view_y', '/blog/{year}')
@@ -45,6 +46,11 @@ def main(global_config, **settings):
     config.add_route('post_delete', '/blog/{year}/{month}/{day}/{route}/delete')
     config.add_route('post_comment_delete', '/blog/{year}/{month}/{day}/{route}/comment/{id}/delete')
 
+    # Image
+#    config.add_route('image_add', '/image/add')
+#    config.add_route('image_view', '/image/{route}')
+#    config.add_route('image_edit', '/image/{route}/edit')
+#    config.add_route('image_delete', '/image/{route}/delete')
 
     config.scan()
 

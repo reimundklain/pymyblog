@@ -374,3 +374,20 @@ class UserView(object):
             pages=Page.all(),
             logged_in=authenticated_userid(self.request),
             )
+
+
+#===============================================================================
+# ImageView
+#===============================================================================
+class ImageView(object):
+
+    def __init__(self, request):
+        self.request = request
+
+    @view_config(route_name='image_view', renderer='templates/image/view.jinja2')
+    def view(self):
+        request = self.request
+
+        return dict()
+
+
