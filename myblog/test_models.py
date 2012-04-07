@@ -16,6 +16,9 @@ class TestRouteAbleMixin(unittest.TestCase):
         r = RouteAbleMixin("Test")
         self.assertEqual("test", r.route);
 
+        r = RouteAbleMixin("Hallo da Draußen")
+        self.assertEqual(u"hallo-da-draußen", r.route);
+
         r = RouteAbleMixin("Hallo ich bin eine Meldung von Heute")
         self.assertEqual("hallo-ich-bin-eine-meldung-von-heute", r.route)
 

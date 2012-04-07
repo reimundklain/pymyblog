@@ -54,9 +54,9 @@ class RouteAbleMixin(object):
 
     @staticmethod
     def url_quote(s):
-        s = re.sub("[^a-zA-Z0-9.]", " ", s).strip(' -').lower() # stripe " " and "-" char 
-        s = re.sub("\s", "-", s)
-        s = re.sub("-+", "-", s)
+        s = re.sub("[^a-zA-Z0-9ßäüö.]", " ", s, flags=re.U).strip(' -').lower() # stripe " " and "-" char 
+        s = re.sub("\s", "-", s, flags=re.U)
+        s = re.sub("-+", "-", s, flags=re.U)
         return s
 
     @classmethod
