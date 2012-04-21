@@ -1,0 +1,32 @@
+{% extends "base.jinja2" %}
+{% block title %} Neus Image anlegen {% endblock %}
+{% block content %}
+<form action="{{ url }}" accept-charset="utf-8" enctype="multipart/form-data"method="post" class="ym-form ym-full">
+  <div class="ym-fbox-text {% if form.image.errors %}ym-error{% endif %}">
+    {{ form.image.label }}
+    {% if form.image.errors %}
+      <ul>{% for error in form.image.errors %}<li><p class="ym-message">{{ error }}</p></li>{% endfor %}</ul>
+    {% endif %}
+    {{ form.image }}
+  </div>
+  <div class="ym-fbox-text {% if form.description.errors %}ym-error{% endif %}">
+    {{ form.description.label }}
+    {% if form.description.errors %}
+      <ul>{% for error in form.description.errors %}<li><p class="ym-message">{{ error }}</p></li>{% endfor %}</ul>
+    {% endif %}
+    {{ form.description }}
+  </div>
+{#  <div class="ym-fbox-text">
+    {{ form.tags.label }}
+    {{ form.tags }}
+  </div>
+#}
+  <div class="ym-fbox-check">
+    {{ form.is_published.label }}
+    {{ form.is_published }}
+  </div>
+  <div class="ym-fbox-button">
+    <input type="submit" class="ym-button" value="Senden" name="form.submitted"/>
+  </div>
+</form>
+{% endblock %}

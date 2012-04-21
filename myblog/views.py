@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*- 
-from models import RouteAbleMixin, Page, Post, Comment, PostComment, Tag, NodeTag, hash_password, User
+from models import RouteAbleMixin, Page, Post, Comment, PostComment, Tag, NodeTag, hash_password, User, Image
 from lib import wtformsext
 from pyramid.httpexceptions import HTTPFound, HTTPNotFound
 from pyramid.response import Response
@@ -8,6 +8,7 @@ from pyramid.view import view_config, forbidden_view_config
 import datetime
 import json
 import logging
+import os.path
 import wtforms
 
 log = logging.getLogger(__name__)
@@ -381,13 +382,60 @@ class UserView(object):
 #===============================================================================
 class ImageView(object):
 
+    class UploadForm(wtforms.Form):
+        '''
+        TODO: Validation of image input path
+        '''
+        image = wtforms.FileField(u'Image file')
+        description = wtforms.TextAreaField(u'Description')
+        is_published = wtforms.BooleanField('Published:', default=False)        
+        submit = wtforms.SubmitField(u'Submit')        
+
     def __init__(self, request):
         self.request = request
+#        log.debug(request)
 
     @view_config(route_name='image_view', renderer='templates/image/view.jinja2')
     def view(self):
         request = self.request
+        id = request.matchdict['id']
+        image = Image.by_id(id)
+        if image is None:
+            return HTTPNotFound("No such image")
+        return dict(
+            image=image,
+            pages=Page.all(),
+            logged_in=authenticated_userid(self.request),
+            )
 
-        return dict()
-
+    @view_config(route_name='image_add', renderer='templates/image/edit.jinja2', permission='edit')
+    def add(self):
+        request = self.request
+        form = ImageView.UploadForm(request.POST)
+        if request.method == 'POST' and form.validate():
+            # looks like we will us form here only for validation an html gen
+            # name = form.image.name   doesn't work this way there is always 'image' as name            
+            name = request.POST['image'].filename
+            path = os.path.join(os.path.dirname(__file__),'files', name)
+            in_file = request.POST['image'].file
+            with open(path, "w") as fd:
+                in_file.seek(0)
+                while 1:
+                    data = in_file.read(2<<16)
+                    if not data:
+                        break
+                    fd.write(data)
+            image = Image.add(name)
+            return HTTPFound(location=request.route_url(
+                    'image_view',
+                    id=image.id,
+                    )
+                )
+        return dict(
+            form=form,
+            url=self.request.route_url('image_add'),
+            pages=Page.all(),
+            logged_in=authenticated_userid(self.request),
+            )
+        
 

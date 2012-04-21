@@ -459,7 +459,7 @@ class Category(Base):
 #===============================================================================
 # Image
 #===============================================================================
-class Image(Node, RouteAbleMixin):
+class Image(Node):
     __tablename__ = 'images'
     __mapper_args__ = {'polymorphic_identity': 'image'}
 
@@ -485,7 +485,7 @@ class Image(Node, RouteAbleMixin):
     def name(self): return self._name
     @name.setter
     def name(self, value):
-        self.route = RouteAbleMixin.url_quote(value)
+        #self.route = RouteAbleMixin.url_quote(value)
         self._name = value
 
 

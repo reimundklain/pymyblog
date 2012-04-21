@@ -1,5 +1,5 @@
 from ..models import DBSession, Node, Page, Post, PostComment, Comment, Tag, NodeTag, \
-    Category, Base, Group, User, UserGroup 
+    Category, Base, Group, User, UserGroup, Image 
 from pyramid.paster import get_appsettings, setup_logging
 from sqlalchemy import engine_from_config
 import logging

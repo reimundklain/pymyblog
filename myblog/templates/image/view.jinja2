@@ -5,8 +5,8 @@
 {# LOGGEDIN #}
 {% include "admin/loggedin.jinja2" %}
 
-<h3><a href="/image/{{ image.route }}">{{image.name}}</a></h3>
+<h3><a href="/image/{{ image.id }}">{{image.name}}</a></h3>
 <p>
-  <img src="/static/images/{{ image.name }}"/>
+  <img src="/files/{{ image.name }}" height="600" width="800" />
 </p>
 {% endblock %}

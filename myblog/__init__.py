@@ -22,6 +22,7 @@ def main(global_config, **settings):
     config.set_request_property(get_user, 'user', reify=True)
     # routes/views
     config.add_static_view('static', 'static', cache_max_age=3600)
+    config.add_static_view('files', 'files', cache_max_age=3600)
     config.add_route('home', '/')
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
@@ -47,8 +48,8 @@ def main(global_config, **settings):
     config.add_route('post_comment_delete', '/blog/{year}/{month}/{day}/{route}/comment/{id}/delete')
 
     # Image
-#    config.add_route('image_add', '/image/add')
-#    config.add_route('image_view', '/image/{route}')
+    config.add_route('image_add', '/image/add')
+    config.add_route('image_view', '/image/{id}')
 #    config.add_route('image_edit', '/image/{route}/edit')
 #    config.add_route('image_delete', '/image/{route}/delete')
 
